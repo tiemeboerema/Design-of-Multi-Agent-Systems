@@ -78,7 +78,6 @@ def form_all_pairs(agents, neighborhoods):
         all_pairs.append((agent_1, agent_2, len(market_pool)))
 
     for neighborhood in neighborhoods:
-        pool = neighborhood_pools[neighborhood.id]
         for agent_1, agent_2 in pair_in_pool(
             neighborhood_pools[neighborhood.id]
         ):
