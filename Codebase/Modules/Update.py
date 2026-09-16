@@ -8,8 +8,7 @@ from Auxillary.Reinforcement import reinforce
 
 def move_agents(agents, neighborhoods):
     for agent in agents:
-        if not agent.in_market:
-            agent.newcomer = False
+        agent.newcomer = False
         if random.random() < cfg.MOBILITY:
             current_neighborhood = neighborhoods[agent.neighborhood_id]
             current_neighborhood.remove_agent(agent)
