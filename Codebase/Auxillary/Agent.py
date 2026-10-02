@@ -1,4 +1,5 @@
 import random
+import Config as cfg
 
 
 class Agent:
@@ -8,6 +9,7 @@ class Agent:
         self.p_trust = random.random()
         self.p_cooperate = random.random()
         self.p_market = random.random()
+        self.p_move = cfg.MOBILITY
 
         self.neighborhood_id = None
 
@@ -18,7 +20,7 @@ class Agent:
         self.cumulative_payoff = 0.0
 
     def action_vector(self):
-        return (self.p_trust, self.p_cooperate, self.p_market)
+        return (self.p_trust, self.p_cooperate, self.p_market, self.p_move)
 
     # -- Generated using Claude --------------------------#
     def __repr__(self):
@@ -26,8 +28,9 @@ class Agent:
             f"Agent(id={self.id}, "
             f"p_trust={self.p_trust:.3f}, "
             f"p_cooperate={self.p_cooperate:.3f}, "
-            f"p_market={self.p_market:.3f})"
-            f"p_market={self.cumulative_payoff:.3f})"
+            f"p_market={self.p_market:.3f}, "
+            f"p_market={self.cumulative_payoff:.3f}, "
+            f"p_move={self.p_move:.3f})"
         )
 
     # -- ---------------------- --------------------------#

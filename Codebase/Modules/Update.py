@@ -10,19 +10,28 @@ def move_agents(agents, neighborhoods):
     for agent in agents:
         if not agent.in_market:
             agent.newcomer = False
-        if random.random() < cfg.MOBILITY:
-            current_neighborhood = neighborhoods[agent.neighborhood_id]
-            current_neighborhood.remove_agent(agent)
 
-            other_neighborhoods = []  # -> claude looked into the codebase and noticed that agents cant move back to their own neighborhood
-            for neighborhood in neighborhoods:
-                if neighborhood.id != current_neighborhood.id:
-                    other_neighborhoods.append(neighborhood)
+        if cfg.MOVE_FREE:
+            if random.random() < agent.p_move:
+                move(agent, neighborhoods)
+        else:
+            if random.random() < cfg.MOBILITY: #propensity
+                move(agent, neighborhoods)
 
-            new_neighborhood = random.choice(other_neighborhoods)
-            new_neighborhood.add_agent(agent)
-            agent.newcomer = True
-            agent.neighborhood_id = new_neighborhood.id
+
+def move(agent, neighborhoods):
+    current_neighborhood = neighborhoods[agent.neighborhood_id]
+    current_neighborhood.remove_agent(agent)
+
+    other_neighborhoods = []
+    for neighborhood in neighborhoods:
+        if neighborhood.id != current_neighborhood.id:
+            other_neighborhoods.append(neighborhood)
+
+    new_neighborhood = random.choice(other_neighborhoods)
+    new_neighborhood.add_agent(agent)
+    agent.newcomer = True
+    agent.neighborhood_id = new_neighborhood.id
 
 
 def try_market(agents):
@@ -146,6 +155,8 @@ def social_learn(agent, role_model):
         agent.p_market = role_model.p_market
     if random.random() < 0.5:
         agent.p_trust = role_model.p_trust
+    if random.random() < 0.5:
+        agent.p_move = role_model.p_move
 
 
 def learn(agent, agent_payoff, used_signal, played, role_models):
@@ -159,13 +170,15 @@ def learn(agent, agent_payoff, used_signal, played, role_models):
         or role_model.cumulative_payoff <= agent.cumulative_payoff
     ):
         if played:
-            agent.p_cooperate = reinforce(
-                agent.p_cooperate, agent.will_cooperate, agent_payoff
-            )
+            agent.p_cooperate = reinforce(agent.p_cooperate, agent.will_cooperate, agent_payoff)
         agent.p_trust = reinforce(agent.p_trust, used_signal, agent_payoff)
-        agent.p_market = reinforce(
-            agent.p_market, agent.in_market, agent_payoff
-        )
+        agent.p_market = reinforce(agent.p_market, agent.in_market, agent_payoff)
+        if not agent.in_market: # p_market exists to cover market trades, p_move should only consider trades within neighborhoods
+            agent.p_move = reinforce(agent.p_move, agent.newcomer, agent_payoff) 
+            #False, because we should not be inverting the p_move when we are moving, bad trades should
+            #always increase mobility and good trades decrease, when not in the market. 
+            #Moving to a new neighborhood and getting a good trade makes logical sense
+            #wrt increasing mobility, because the moving had a positive effect, but we dont want this.
 
     elif not role_model.newcomer:
         social_learn(agent, role_model)
