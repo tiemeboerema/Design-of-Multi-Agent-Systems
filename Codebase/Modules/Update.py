@@ -174,11 +174,12 @@ def learn(agent, agent_payoff, used_signal, played, role_models):
         agent.p_trust = reinforce(agent.p_trust, used_signal, agent_payoff)
         agent.p_market = reinforce(agent.p_market, agent.in_market, agent_payoff)
         if not agent.in_market: # p_market exists to cover market trades, p_move should only consider trades within neighborhoods
-            agent.p_move = reinforce(agent.p_move, agent.newcomer, agent_payoff) 
+            agent.p_move = reinforce(agent.p_move, False, agent_payoff) 
             #False, because we should not be inverting the p_move when we are moving, bad trades should
             #always increase mobility and good trades decrease, when not in the market. 
             #Moving to a new neighborhood and getting a good trade makes logical sense
             #wrt increasing mobility, because the moving had a positive effect, but we dont want this.
+            #Alternatively, False could be agent.newcomer? maybe not.
 
     elif not role_model.newcomer:
         social_learn(agent, role_model)
