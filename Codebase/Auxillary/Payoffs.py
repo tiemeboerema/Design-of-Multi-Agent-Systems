@@ -9,10 +9,10 @@ def payoff(played, agent_cooperate, partner_cooperate, O):
     if not played:
         return cfg.EXIT, cfg.EXIT
     elif agent_cooperate and partner_cooperate:
-        return cfg.REWARD - O, cfg.REWARD - O
+        return cfg.REWARD - 0.5 * O, cfg.REWARD - 0.5 * O
     elif not agent_cooperate and not partner_cooperate:
         return cfg.PUNISHMENT, cfg.PUNISHMENT
     elif agent_cooperate and not partner_cooperate:
-        return cfg.SUCKER, cfg.TEMPTATION - O
+        return cfg.SUCKER, cfg.TEMPTATION - 0.5 * O
     else:
         return cfg.TEMPTATION - O, cfg.SUCKER
