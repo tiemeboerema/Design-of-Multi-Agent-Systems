@@ -6,8 +6,9 @@ class NeighborhoodGenerator:
     def __init__(self):
         self._id = 0
 
-    def generate_neighborhoods(self, count=cfg.N_NEIGHBORHOODS):
+    def generate_neighborhoods(self):
         neighborhoods = []
+        count = cfg.POPULATION // cfg.NEIGHBORHOOD_SIZE
         for _ in range(count):
             neighborhoods.append(self.generate_neighborhood())
         return neighborhoods
