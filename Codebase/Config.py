@@ -4,8 +4,11 @@ POPULATION = 1000
 NEIGHBORHOOD_SIZE = 30
 # N_NEIGHBORHOODS = POPULATION // NEIGHBORHOOD_SIZE
 
-MOBILITY = 1
-HETEROGENEITY = 1
+
+MOVE_FREE = True #if true, agents can decide how to move, otherwise it uses the original mobility parameter
+MOBILITY = 0.1
+
+HETEROGENEITY = 0.2
 
 ITERATIONS = 1000
 RUNS = 20
