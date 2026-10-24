@@ -1,9 +1,10 @@
-from Experiment import run
-from pathlib import Path
+import Config as cfg
 import pandas as pd
 import csv
+
+from Experiment import run
+from pathlib import Path
 from tqdm import tqdm
-import Config as cfg
 
 MOBILITIES = range(0, 11)
 SIZES = range(10, 110, 10)

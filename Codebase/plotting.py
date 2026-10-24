@@ -31,7 +31,7 @@ def plot_mobility(data: pd.DataFrame) -> None:
 
 
 def main():
-    data = pd.read_csv("results4.csv")
+    data = pd.read_csv("Codebase/Results/results4.csv")
     plot_mobility(data)
 
 
