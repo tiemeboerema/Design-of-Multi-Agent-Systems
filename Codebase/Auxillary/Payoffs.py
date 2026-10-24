@@ -15,4 +15,4 @@ def payoff(played, agent_cooperate, partner_cooperate, O):
     elif agent_cooperate and not partner_cooperate:
         return cfg.SUCKER, cfg.TEMPTATION - 0.5 * O
     else:
-        return cfg.TEMPTATION - O, cfg.SUCKER
+        return cfg.TEMPTATION - 0.5 * O, cfg.SUCKER
