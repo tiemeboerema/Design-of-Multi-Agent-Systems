@@ -2,19 +2,18 @@ SEED = 42
 
 POPULATION = 1000
 NEIGHBORHOOD_SIZE = 30
-# N_NEIGHBORHOODS = POPULATION // NEIGHBORHOOD_SIZE
 
+# If true, agents can decide how to move, otherwise it uses the original mobility parameter
+MOVE_FREE = False
 
-MOVE_FREE = True #if true, agents can decide how to move, otherwise it uses the original mobility parameter
 MOBILITY = 0.1
-
-HETEROGENEITY = 0.2
+HETEROGENEITY = 1
 
 ITERATIONS = 1000
 RUNS = 20
 
 
-#Prisoners Dilemma Payoffs
+# Prisoners Dilemma Payoffs
 REWARD = 0.7
 TEMPTATION = 1.0
 SUCKER = -0.5
