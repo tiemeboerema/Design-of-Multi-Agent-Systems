@@ -7,8 +7,7 @@ import Config as cfg
 
 MOBILITIES = range(0, 11)
 SIZES = range(10, 110, 10)
-
-RESULTS_PATH = Path(__file__).parents[1] / 'results'
+RESULTS_PATH = Path("Codebase/Results")
 
 
 def perform_full_run() -> None:
@@ -24,7 +23,7 @@ def perform_full_run() -> None:
             trust, market = run()
             for val in range(cfg.RUNS):
                 df.loc[len(df)] = [mobil / 10, neigh_size, trust[val], market[val]]
-            df.to_csv(RESULTS_PATH / 'default_results.csv', index=False)
+            df.to_csv(RESULTS_PATH / "default_results.csv", index=False)
 
 
 def main() -> None:
