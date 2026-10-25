@@ -111,7 +111,11 @@ def score_pair(agent, partner, n):
 
     agent.cumulative_payoff += payoff_agent
     partner.cumulative_payoff += payoff_partner
-
+    
+    # Ongoing Relationships: Update memory queues with the outcome of the interaction
+    if played and agent.in_market and partner.in_market and cfg.MEMORY_SIZE > 0: 
+        agent.memory[partner.id] = "positive" if partner.will_cooperate else "negative"
+        partner.memory[agent.id] = "positive" if agent.will_cooperate else "negative"
     return (
         played,
         agent_used_signal,

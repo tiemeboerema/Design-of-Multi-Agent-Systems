@@ -1,4 +1,5 @@
 import random
+from typing import OrderedDict
 
 import Config as cfg
 
@@ -19,6 +20,8 @@ class Agent:
         self.will_cooperate = None
 
         self.cumulative_payoff = 0.0
+        
+        self.memory: OrderedDict = OrderedDict(maxlen=cfg.MEMORY_SIZE)  
 
     def action_vector(self):
         return (self.p_trust, self.p_cooperate, self.p_market, self.p_move)
