@@ -48,4 +48,4 @@ def will_play(agent, partner, in_market):
     )
 
     played = agent_trusts and partner_trusts
-    return played, agent_used_signal_reading, partner_used_signal_reading
+    return played, agent_used_signal_reading, partner_used_signal_reading, agent_trusts, partner_trusts

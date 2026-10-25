@@ -8,18 +8,20 @@ def plot_mobility(data: pd.DataFrame) -> None:
     """
     Plots mobility against various trust measurements.
     """
-    agg_data = pd.DataFrame(columns=['Mobility', 'Trust', 'Market'])
+    agg_data = pd.DataFrame(columns=['Mobility', 'Trust', 'Market', 'Trust Strangers'])
     for i in range(11):
         mobility = i / 10
         mobility_values = data.loc[data['Mobility'] == mobility]
 
         mean_trust = mobility_values['Mean Trust'].mean()
         mean_market = mobility_values['Mean Market'].mean()
+        mean_trust_strangers = mobility_values['Mean Trust Strangers'].mean()
 
         agg_data.loc[len(agg_data)] = [mobility, mean_trust, mean_market]
 
     plt.plot(agg_data['Mobility'], agg_data['Trust'], marker='o', label='Reading Signals')
     plt.plot(agg_data['Mobility'], agg_data['Market'], marker='s', label='Market Size')
+    plt.plot(agg_data['Mobility'], agg_data['Trust Strangers'], marker='p', label='Trust Strangers')
 
     plt.xlabel('Mobility Rate')
     plt.ylabel('Means')
@@ -31,7 +33,7 @@ def plot_mobility(data: pd.DataFrame) -> None:
 
 
 def main():
-    data = pd.read_csv("Codebase/Results/results4.csv")
+    data = pd.read_csv("Codebase/Results/default_results2.csv")
     plot_mobility(data)
 
 

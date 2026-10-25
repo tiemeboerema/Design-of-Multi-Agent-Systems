@@ -83,16 +83,18 @@ def form_all_pairs(agents, neighborhoods):
     decide_cooperation(agents)
     market_pool, neighborhood_pools = form_pools(agents, neighborhoods)
 
+    # True for agents in market
     all_pairs = []
     for agent_1, agent_2 in pair_in_pool(market_pool):
-        all_pairs.append((agent_1, agent_2, len(market_pool)))
+        all_pairs.append((agent_1, agent_2, len(market_pool), True))
 
+    # False for agents in neighborhoods
     for neighborhood in neighborhoods:
         local_pool = neighborhood_pools[neighborhood.id]
         for agent_1, agent_2 in pair_in_pool(
             neighborhood_pools[neighborhood.id]
         ):
-            all_pairs.append((agent_1, agent_2, len(local_pool)))
+            all_pairs.append((agent_1, agent_2, len(local_pool), False))
 
     return all_pairs
 
@@ -100,7 +102,7 @@ def form_all_pairs(agents, neighborhoods):
 
 
 def score_pair(agent, partner, n):
-    played, agent_used_signal, partner_used_signal = will_play(
+    played, agent_used_signal, partner_used_signal, agent_trusts, partner_trusts = will_play(
         agent, partner, agent.in_market
     )
 
@@ -122,6 +124,8 @@ def score_pair(agent, partner, n):
         partner_used_signal,
         payoff_agent,
         payoff_partner,
+        agent_trusts,
+        partner_trusts
     )
 
 
@@ -193,9 +197,18 @@ def learn(agent, agent_payoff, used_signal, played, role_models):
 
 def resolve_all_pairs(pairs, neighborhoods):
     scored = []
-    for agent, partner, n in pairs:
+    in_market_trusted = 0
+    market_pairs = 0
+
+    for agent, partner, n, in_market in pairs:
         result = score_pair(agent, partner, n)
         scored.append((agent, partner, *result))
+        if in_market:
+            market_pairs += 1
+            if result[5]:
+                in_market_trusted += 1
+            if result[6]:
+                in_market_trusted += 1
 
     role_models = find_role_models(neighborhoods)
 
@@ -207,8 +220,14 @@ def resolve_all_pairs(pairs, neighborhoods):
         partner_used_signal,
         payoff_agent,
         payoff_partner,
+        agent_trusts,
+        partner_trusts,
     ) in scored:
         learn(agent, payoff_agent, agent_used_signal, played, role_models)
         learn(
             partner, payoff_partner, partner_used_signal, played, role_models
         )
+
+    if market_pairs != 0:
+        return in_market_trusted / (market_pairs * 2)
+    return 0

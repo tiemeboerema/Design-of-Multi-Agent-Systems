@@ -15,6 +15,7 @@ def setup():
 def run():
     mean_trust = np.zeros(cfg.RUNS)
     mean_market_entry = np.zeros(cfg.RUNS)
+    mean_trust_strangers = np.zeros(cfg.RUNS)
 
     for run in range(cfg.RUNS):
         # Propensity to base trust on signal reading
@@ -23,12 +24,15 @@ def run():
         # Proportion of agents that actually enter the market
         market_entry = np.zeros(cfg.ITERATIONS)
 
+        # Proportion of agents that trusted and cooperated
+        trust_strangers = np.zeros(cfg.ITERATIONS)
+
         agents, neighborhoods = setup()
         for i in range(cfg.ITERATIONS):
             move_agents(agents, neighborhoods)
             pairs = form_all_pairs(agents, neighborhoods)
             market_entry[i] = (sum(agent.in_market for agent in agents) / cfg.POPULATION)
-            resolve_all_pairs(pairs, neighborhoods)
+            trust_strangers[i] = resolve_all_pairs(pairs, neighborhoods)
 
         # Collect trust propensities
         for agent in agents:
@@ -36,8 +40,9 @@ def run():
             
         mean_trust[run] = np.mean(trust)
         mean_market_entry[run] = np.mean(market_entry)
+        mean_trust_strangers[run] = np.mean(trust_strangers) 
 
-    return mean_trust, mean_market_entry
+    return mean_trust, mean_market_entry, mean_trust_strangers
 
 
 if __name__ == "__main__":
