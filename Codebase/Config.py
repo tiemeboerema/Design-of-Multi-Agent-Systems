@@ -19,3 +19,6 @@ TEMPTATION = 1.0
 SUCKER = -0.5
 PUNISHMENT = -0.2
 EXIT = -0.2
+
+# Ongoing Relationships
+MEMORY_SIZE = 0

@@ -14,6 +14,14 @@ def _read_signal(agent, partner):
 
 
 def trusts(agent, partner, in_market):
+    
+    if partner.id in agent.memory:
+        # Ongoing Relationships: If the agent has a memory of the partner, use that to decide whether to trust
+        if agent.memory[partner.id] == "positive":
+            return True, False  
+        elif agent.memory[partner.id] == "negative":
+            return False, False 
+    
     used_signal_reading = (
         random.random() < agent.p_trust
     )  # delete# I am unsure why we check r < p_trust over checking if it is larger, worth checking later.
