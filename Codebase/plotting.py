@@ -84,7 +84,7 @@ def main():
     plot_neighborhood_size(data)
 
     # Endogenous mobility plots
-    data = pd.read_csv("Codebase/Results/endogenous_mobility_results2.csv")
+    data = pd.read_csv("Codebase/Results/endogenous_mobility_results.csv")
     plot_endogenous_mobility(data)
 
     # Agent memory plots
