@@ -21,4 +21,5 @@ PUNISHMENT = -0.2
 EXIT = -0.2
 
 # Ongoing Relationships
+USE_MEMORY = True
 MEMORY_SIZE = 0

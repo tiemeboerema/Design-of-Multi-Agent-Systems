@@ -15,7 +15,7 @@ def _read_signal(agent, partner):
 
 def trusts(agent, partner, in_market):
     
-    if partner.id in agent.memory:
+    if partner.id in agent.memory and cfg.USE_MEMORY:
         # Ongoing Relationships: If the agent has a memory of the partner, use that to decide whether to trust
         if agent.memory[partner.id] == "positive":
             return True, False  
