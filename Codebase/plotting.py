@@ -4,6 +4,23 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
+def create_plot(data: pd.DataFrame, selected_var: str, xbottom: int, xtop: int) -> None:
+    """
+    Plots a selected variable (mobility/neigh_size) against various measures of trust.
+    """
+    plt.plot(data[selected_var], data['Trust'], marker='o', label='Reading Signals')
+    plt.plot(data[selected_var], data['Market'], marker='s', label='Market Size')
+    plt.plot(data[selected_var], data['Trust Strangers'], marker='p', label='Trust Strangers')
+
+    plt.xlabel(f'{selected_var}')
+    plt.ylabel('Means')
+    plt.xlim(xbottom, xtop)
+    plt.ylim(0, 1)
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    plt.show()
+
+
 def plot_mobility(data: pd.DataFrame) -> None:
     """
     Plots mobility against various trust measurements.
@@ -17,26 +34,33 @@ def plot_mobility(data: pd.DataFrame) -> None:
         mean_market = mobility_values['Mean Market'].mean()
         mean_trust_strangers = mobility_values['Mean Trust Strangers'].mean()
 
-        agg_data.loc[len(agg_data)] = [mobility, mean_trust, mean_market]
+        agg_data.loc[len(agg_data)] = [mobility, mean_trust, mean_market, mean_trust_strangers]
 
-    plt.plot(agg_data['Mobility'], agg_data['Trust'], marker='o', label='Reading Signals')
-    plt.plot(agg_data['Mobility'], agg_data['Market'], marker='s', label='Market Size')
-    plt.plot(agg_data['Mobility'], agg_data['Trust Strangers'], marker='p', label='Trust Strangers')
+    create_plot(agg_data, 'Mobility', 0, 1)
 
-    plt.xlabel('Mobility Rate')
-    plt.ylabel('Means')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    plt.show()
+
+def plot_neighborhood_size(data: pd.DataFrame) -> None:
+    """
+    Plots neighborhood size against various trust measurements.
+    """
+    agg_data = pd.DataFrame(columns=['Neighborhood Size', 'Trust', 'Market', 'Trust Strangers'])
+    for size in range(10, 110, 10):
+        neigh_size_values = data.loc[data['Neighborhood Size'] == size]
+
+        mean_trust = neigh_size_values['Mean Trust'].mean()
+        mean_market = neigh_size_values['Mean Market'].mean()
+        mean_trust_strangers = neigh_size_values['Mean Trust Strangers'].mean()
+
+        agg_data.loc[len(agg_data)] = [size, mean_trust, mean_market, mean_trust_strangers]
+
+    create_plot(agg_data, "Neighborhood Size", 10, 100)
 
 
 def main():
-    data = pd.read_csv("Codebase/Results/default_results2.csv")
+    # Basic run plots
+    data = pd.read_csv("Codebase/Results/basic_results.csv")
     plot_mobility(data)
-
-
+    plot_neighborhood_size(data)
 
 
 if __name__ == "__main__":
