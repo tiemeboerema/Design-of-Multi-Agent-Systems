@@ -17,6 +17,9 @@ def perform_memory_run() -> None:
     Performs 20 runs for each combination of mobility, neighborhood size, and memory size
     and collects the resulting trust and market propensities in a CSV.
     """
+    cfg.MOVE_FREE = False
+    cfg.USE_MEMORY = True
+
     df = pd.DataFrame(columns=["Mobility", "Neighborhood Size", "Memory Size", "Mean Trust", "Mean Market", "Mean Trust Strangers"])
     for mobil in tqdm(MOBILITIES):
         cfg.MOBILITY = mobil / 10
