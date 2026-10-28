@@ -24,7 +24,7 @@ def perform_basic_run() -> None:
         cfg.MOBILITY = mobil / 10
         for neigh_size in SIZES:
             cfg.NEIGHBORHOOD_SIZE = neigh_size
-            trust, market, trust_strangers = run()
+            _, trust, market, trust_strangers = run()
             for val in range(cfg.RUNS):
                 df.loc[len(df)] = [mobil / 10, neigh_size, trust[val], market[val], trust_strangers[val]]
             df.to_csv(RESULTS_PATH / "basic_results.csv", index=False)

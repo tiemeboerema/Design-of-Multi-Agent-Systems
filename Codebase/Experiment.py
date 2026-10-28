@@ -16,6 +16,7 @@ def run():
     mean_trust = np.zeros(cfg.RUNS)
     mean_market_entry = np.zeros(cfg.RUNS)
     mean_trust_strangers = np.zeros(cfg.RUNS)
+    mean_mobility = np.zeros(cfg.RUNS)
 
     for run in range(cfg.RUNS):
         # Propensity to base trust on signal reading
@@ -27,6 +28,9 @@ def run():
         # Proportion of agents that trusted and cooperated
         trust_strangers = np.zeros(cfg.ITERATIONS)
 
+        # Propensity to move to another neighborhood
+        mobility = np.zeros(cfg.POPULATION)
+
         agents, neighborhoods = setup()
         for i in range(cfg.ITERATIONS):
             move_agents(agents, neighborhoods)
@@ -37,12 +41,16 @@ def run():
         # Collect trust propensities
         for agent in agents:
             trust[agent.id] = agent.p_trust
+            mobility[agent.id] = agent.p_move
             
         mean_trust[run] = np.mean(trust)
         mean_market_entry[run] = np.mean(market_entry)
         mean_trust_strangers[run] = np.mean(trust_strangers) 
+        mean_mobility[run] = np.mean(mobility)
 
-    return mean_trust, mean_market_entry, mean_trust_strangers
+    if cfg.MOVE_FREE:
+        return mean_mobility, mean_trust, mean_market_entry, mean_trust_strangers
+    return None, mean_trust, mean_market_entry, mean_trust_strangers
 
 
 if __name__ == "__main__":
