@@ -54,7 +54,8 @@ uv run Codebase/plotting.py
 
 This outputs the following plots in order:
 
--
--
--
--
+- Mobility values against trust measures.
+- Neighborhood size values against trust measures.
+- Neighborhood size values against trust measures, using endogenous mobility.
+- Mobility values against trust measures, for different agent memory sizes.
+- Mobility values against trust measures, using agent memory aggregates.
