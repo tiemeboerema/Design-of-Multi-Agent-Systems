@@ -32,7 +32,7 @@ uv run Codebase/full_basic_run.py
 We make two additions to the original model. The first is giving agents individual mobility propensities, allowing them to choose whether to move themselves, rather than having mobility as an experimental variable. The related analysis can be run as follows:
 
 ```
-uv run Codebase/full_endogenous_run.py
+uv run Codebase/full_endogenous_mobility_run.py
 ```
 
 Our other addition is the inclusion of agent memory. Due to the relatively large number of combinations of experimental parameters (11 mobilities, 10 neighborhood sizes, 20 memory sizes = 2200 experimental conditions) for which we perform 20 runs each, the original runs were performed on Habrok using the script main.sh in the Codebase/dispatch folder. Partial experiments can still be run locally as follows:
