@@ -283,7 +283,6 @@ def main():
     plot_endogenous_mobility(data)
 
     # Agent memory plots
-    # plot_agent_memory("Results")
     plot_agent_memory_by_size("Codebase/Results")
     plot_agent_memory_aggregated("Codebase/Results")
 
